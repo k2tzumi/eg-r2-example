@@ -1,0 +1,9 @@
+{
+    "extends": [
+        "spectral:oas",
+        "spectral:asyncapi"
+    ],
+    "rules": {
+        "oas3-valid-media-example": "warn"
+    }
+}
