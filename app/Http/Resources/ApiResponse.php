@@ -17,14 +17,16 @@ class ApiResponse extends JsonResource
 {
     public function __construct(
         #[OA\Property(
-            description: "Code",
-            title: "Code",
-            format: "int32"
+            description: "code",
+            title: "code",
+            format: "int32",
+            type: "integer"
         )]
         public int $code,
         #[OA\Property(
             description: "Message",
-            title: "Message"
+            title: "Message",
+            type: "string"
         )]
         public string $message,
     ) {

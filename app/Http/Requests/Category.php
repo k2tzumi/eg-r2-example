@@ -18,16 +18,21 @@ use OpenApi\Attributes as OA;
 class Category extends FormRequest
 {
     #[OA\Property(
-        format: "int64",
-        description: "ID",
-        title: "ID"
-    )]    
-    private int $id;
+        property: "id",
+        format: "int",
+        description: "id",
+        type: "integer",
+        title: "id",
+        minimum: 1
+    )]
+     public int $id;
 
     #[OA\Property(
+        property: "name",
         format: "string",
         description: "Category name",
+        type: "string",
         title: "Category name"
     )]
-    private string $name;
+    public string $name;
 }

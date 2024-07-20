@@ -24,28 +24,37 @@ class Pet extends FormRequest
     use FormRequestPropertyHandlerTrait, RequestRuleGeneratorTrait;
 
     #[OA\Property(
+        property: "id",
         format: "int64",
-        description: "ID",
-        title: "ID"
-    )]    
+        description: "id",
+        type: "integer",
+        title: "id",
+        minimum: 1,
+        example: 1
+    )]
     public int $id;
 
     #[OA\Property(
+        property: "category",
         title: "Category",
         ref: "#/components/schemas/Category"
     )]
     public Category $category;
 
     #[OA\Property(
+        property: "name",
         format: "string",
         description: "Pet name",
+        type: "string",
         title: "Pet name"
     )]
     public string $name;
 
     /** @var string[] */
     #[OA\Property(
+        property: "photoUrls",
         description: "Photo urls",
+        type: "array",
         title: "Photo urls",
         xml: new OA\Xml(
             name: "photoUrl",
@@ -59,7 +68,9 @@ class Pet extends FormRequest
     public array $photoUrls;
 
     #[OA\Property(
+        property: "tags",
         description: "Pet tags",
+        type: "array",
         title: "Pet tags",
         xml: new OA\Xml(
             name: "tag",
@@ -79,4 +90,11 @@ class Pet extends FormRequest
     // {
     //     return false;
     // }
+
+    public function rules(): array
+    {
+        $rules = $this->convertRules();
+        // var_export($rules);
+        return $rules;
+    }
 }
