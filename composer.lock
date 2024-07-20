@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0a79589029ab1d974d5e45f9f350498",
+    "content-hash": "66fe5f52a20d37e7fbcf396fbdf8462a",
     "packages": [
         {
             "name": "brick/math",
@@ -2041,11 +2041,17 @@
         },
         {
             "name": "litalico-engineering/eg-r2",
-            "version": "0.0.1",
+            "version": "0.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/litalico-engineering/eg-r2.git",
-                "reference": "8a3184a55bd03349344c74facab2d638e08689d4"
+                "reference": "a7c79a205f26bcea49a62ef68535515923c7ab35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/litalico-engineering/eg-r2/zipball/a7c79a205f26bcea49a62ef68535515923c7ab35",
+                "reference": "a7c79a205f26bcea49a62ef68535515923c7ab35",
+                "shasum": ""
             },
             "require": {
                 "illuminate/console": "^9.0|^10.0",
@@ -2077,42 +2083,13 @@
                     "Litalico\\EgR2\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
-            "archive": {
-                "exclude": [
-                    ".gitignore",
-                    ".gitattributes",
-                    "vendor",
-                    ".git",
-                    "tests",
-                    ".github",
-                    ".octocov.yml",
-                    ".php-cs-fixer.dist.php",
-                    ".tagpr",
-                    "phpstan.neon",
-                    "phpunit.xml"
-                ]
-            },
-            "scripts": {
-                "test": [
-                    "./vendor/bin/phpunit --configuration phpunit.xml"
-                ],
-                "lint": [
-                    "./vendor/bin/phpstan analyze"
-                ],
-                "fix-cs": [
-                    "php-cs-fixer fix --config=.php-cs-fixer.dist.php --verbose"
-                ],
-                "coverage": [
-                    "./vendor/bin/phpunit --configuration phpunit.xml --coverage-clover coverage.xml"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "description": "Easy request validation and route generation from open API specifications (for Laravel)",
-            "time": "2024-02-05T10:40:15+00:00"
+            "support": {
+                "issues": "https://github.com/litalico-engineering/eg-r2/issues",
+                "source": "https://github.com/litalico-engineering/eg-r2/tree/0.0.4"
+            },
+            "time": "2024-07-17T09:28:30+00:00"
         },
         {
             "name": "monolog/monolog",
