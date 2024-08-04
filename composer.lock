@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66fe5f52a20d37e7fbcf396fbdf8462a",
+    "content-hash": "c129b58808c9cb59aac451c0e1dc62b6",
     "packages": [
         {
             "name": "brick/math",
@@ -2041,16 +2041,16 @@
         },
         {
             "name": "litalico-engineering/eg-r2",
-            "version": "0.0.4",
+            "version": "0.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/litalico-engineering/eg-r2.git",
-                "reference": "a7c79a205f26bcea49a62ef68535515923c7ab35"
+                "reference": "b6100cbc46f318fb751cf4900b756ebddbea9184"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/litalico-engineering/eg-r2/zipball/a7c79a205f26bcea49a62ef68535515923c7ab35",
-                "reference": "a7c79a205f26bcea49a62ef68535515923c7ab35",
+                "url": "https://api.github.com/repos/litalico-engineering/eg-r2/zipball/b6100cbc46f318fb751cf4900b756ebddbea9184",
+                "reference": "b6100cbc46f318fb751cf4900b756ebddbea9184",
                 "shasum": ""
             },
             "require": {
@@ -2066,7 +2066,7 @@
                 "orchestra/testbench": "^7.0|^8.0",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.0|^10.0",
-                "smeghead/php-vendor-credits": "^0.0.4",
+                "smeghead/php-vendor-credits": "^0.0.5",
                 "spaze/phpstan-disallowed-calls": "^3.1"
             },
             "type": "library",
@@ -2087,9 +2087,9 @@
             "description": "Easy request validation and route generation from open API specifications (for Laravel)",
             "support": {
                 "issues": "https://github.com/litalico-engineering/eg-r2/issues",
-                "source": "https://github.com/litalico-engineering/eg-r2/tree/0.0.4"
+                "source": "https://github.com/litalico-engineering/eg-r2/tree/0.0.6"
             },
-            "time": "2024-07-17T09:28:30+00:00"
+            "time": "2024-07-31T08:33:19+00:00"
         },
         {
             "name": "monolog/monolog",
