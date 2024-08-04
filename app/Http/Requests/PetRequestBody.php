@@ -10,10 +10,6 @@ use OpenApi\Attributes as OA;
     required: true,
     content: new OA\JsonContent(ref: "#/components/schemas/Pet")
 )]
-#[OA\MediaType(
-    mediaType: "application/xml",
-    schema: new OA\Schema(ref: "#/components/schemas/Pet")
-)]
 class PetRequestBody
 {
 }
