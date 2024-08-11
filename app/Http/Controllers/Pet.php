@@ -1,249 +1,254 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use OpenApi\Attributes as OA;
 use App\Http\Requests\Pet as PetRequest;
 use App\Http\Resources\ApiResponse;
+use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
 
 class Pet extends Controller
 {
     #[OA\Post(
-        path: "/pet",
-        description: "Add a new pet to the store.",
-        tags: ["pet"],
-        operationId: "addPet",
+        path: '/pet',
+        operationId: 'addPet',
+        description: 'Add a new pet to the store.',
+        security: [
+            ['petstore_auth' => ['write:pets', 'read:pets']],
+        ],
+        requestBody: new OA\RequestBody(ref: '#/components/requestBodies/Pet'),
+        tags: ['pet'],
         responses: [
             new OA\Response(
                 response: 405,
-                description: "Invalid input"
-            )
-        ],
-        security: [
-            ["petstore_auth" => ["write:pets", "read:pets"]]
-        ],
-        requestBody: new OA\RequestBody(ref: "#/components/requestBodies/Pet")
+                description: 'Invalid input'
+            ),
+        ]
     )]
     /**
      * Add a new pet to the store.
+     * @param Pet $pet
+     * @return JsonResponse
      */
-    public function addPet(PetRequest $pet)
+    public function addPet(PetRequest $pet): JsonResponse
     {
-        $response = new ApiResponse("200", "success");
+        $response = new ApiResponse(200, 'success');
+
         return response()->json($response, 200);
     }
 
     #[OA\Put(
-        path: "/pet",
-        description: "Update an existing pet.",
-        tags: ["pet"],
-        operationId: "updatePet",
+        path: '/pet',
+        operationId: 'updatePet',
+        description: 'Update an existing pet.',
+        security: [
+            ['petstore_auth' => ['write:pets', 'read:pets']],
+        ],
+        requestBody: new OA\RequestBody(ref: '#/components/requestBodies/Pet'),
+        tags: ['pet'],
         responses: [
             new OA\Response(
                 response: 400,
-                description: "Invalid ID supplied"
+                description: 'Invalid ID supplied'
             ),
             new OA\Response(
                 response: 404,
-                description: "Pet not found"
+                description: 'Pet not found'
             ),
             new OA\Response(
                 response: 405,
-                description: "Validation exception"
-            )
-        ],
-        security: [
-            ["petstore_auth" => ["write:pets", "read:pets"]]
-        ],
-        requestBody: new OA\RequestBody(ref: "#/components/requestBodies/Pet")
+                description: 'Validation exception'
+            ),
+        ]
     )]
     /**
      * Update an existing pet.
      */
-    public function updatePet()
+    public function updatePet(): void
     {
     }
 
     #[OA\Get(
-        path: "/pet/findByStatus",
-        tags: ["pet"],
-        summary: "Finds Pets by status",
-        description: "Multiple status values can be provided with comma separated string",
-        operationId: "findPetsByStatus",
-        deprecated: true,
+        path: '/pet/findByStatus',
+        operationId: 'findPetsByStatus',
+        description: 'Multiple status values can be provided with comma separated string',
+        summary: 'Finds Pets by status',
         security: [
-            ["api_key" => []]
-        ]
+            ['api_key' => []],
+        ],
+        tags: ['pet'],
+        deprecated: true
     )]
     #[OA\Parameter(
-        name: "status",
-        in: "query",
-        description: "Status values that needed to be considered for filter",
+        name: 'status',
+        description: 'Status values that needed to be considered for filter',
+        in: 'query',
         required: true,
-        explode: true,
         schema: new OA\Schema(
-            default: "available",
-            type: "string",
-            enum: ["available", "pending", "sold"]
-        )
+            type: 'string',
+            default: 'available',
+            enum: ['available', 'pending', 'sold']
+        ),
+        explode: true
     )]
     #[OA\Response(
         response: 200,
-        description: "successful operation",
+        description: 'successful operation',
         content:[
             new OA\JsonContent(
-                type: "array",
-                items:new OA\Items(ref: "#/components/schemas/Pet")
+                type: 'array',
+                items:new OA\Items(ref: '#/components/schemas/Pet')
             ),
             new OA\XmlContent(
-                type: "array",
-                items:new OA\Items(ref: "#/components/schemas/Pet")
+                type: 'array',
+                items:new OA\Items(ref: '#/components/schemas/Pet')
             ),
         ]
     )]
     /**
      * @param int $id
      */
-    public function getPetById(int $id)
+    public function getPetById(int $id): void
     {
     }
 
     #[OA\Post(
-        path: "/pet/{petId}",
-        tags: ["pet"],
-        summary: "Updates a pet in the store with form data",
-        operationId: "updatePetWithForm",
-        parameters: [
-            new OA\Parameter(
-                name: "petId",
-                in: "path",
-                description: "ID of pet that needs to be updated",
-                required: true,
+        path: '/pet/{petId}',
+        operationId: 'updatePetWithForm',
+        summary: 'Updates a pet in the store with form data',
+        security: [
+            ['petstore_auth' => ['write:pets', 'read:pets']],
+        ],
+        requestBody: new OA\RequestBody(
+            description: 'Input data format',
+            content: new OA\MediaType(
+                mediaType: 'application/x-www-form-urlencoded',
                 schema: new OA\Schema(
-                    type: "integer",
-                    format: "int64"
+                    properties: [
+                        new OA\Property(
+                            property: 'name',
+                            description: 'Updated name of the pet',
+                            type: 'string'
+                        ),
+                        new OA\Property(
+                            property: 'status',
+                            description: 'Updated status of the pet',
+                            type: 'string'
+                        ),
+                    ],
+                    type: 'object'
                 )
             )
+        ),
+        tags: ['pet'],
+        parameters: [
+            new OA\Parameter(
+                name: 'petId',
+                description: 'ID of pet that needs to be updated',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    format: 'int64'
+                )
+            ),
         ],
         responses: [
             new OA\Response(
                 response: 405,
-                description: "Invalid input"
-            )
-        ],
-        security: [
-            ["petstore_auth" => ["write:pets", "read:pets"]]
-        ],
-        requestBody: new OA\RequestBody(
-            description: "Input data format",
-            content: new OA\MediaType(
-                mediaType: "application/x-www-form-urlencoded",
-                schema: new OA\Schema(
-                    type: "object",
-                    properties: [
-                        new OA\Property(
-                            property: "name",
-                            description: "Updated name of the pet",
-                            type: "string"
-                        ),
-                        new OA\Property(
-                            property: "status",
-                            description: "Updated status of the pet",
-                            type: "string"
-                        )
-                    ]
-                )
-            )
-        )
+                description: 'Invalid input'
+            ),
+        ]
     )]
-    public function updatePetWithForm()
+    public function updatePetWithForm(): void
     {
     }
 
     #[OA\Delete(
-        path: "/pet/{petId}",
-        tags: ["pet"],
-        summary: "Deletes a pet",
-        operationId: "deletePet",
+        path: '/pet/{petId}',
+        operationId: 'deletePet',
+        summary: 'Deletes a pet',
+        security: [
+            ['petstore_auth' => ['write:pets', 'read:pets']],
+        ],
+        tags: ['pet'],
         parameters: [
             new OA\Parameter(
-                name: "api_key",
-                in: "header",
+                name: 'api_key',
+                in: 'header',
                 required: false,
                 schema: new OA\Schema(
-                    type: "string"
+                    type: 'string'
                 )
             ),
             new OA\Parameter(
-                name: "petId",
-                in: "path",
-                description: "Pet id to delete",
+                name: 'petId',
+                description: 'Pet id to delete',
+                in: 'path',
                 required: true,
                 schema: new OA\Schema(
-                    type: "integer",
-                    format: "int64"
+                    type: 'integer',
+                    format: 'int64'
                 )
-            )
+            ),
         ],
         responses: [
             new OA\Response(
                 response: 400,
-                description: "Invalid ID supplied"
+                description: 'Invalid ID supplied'
             ),
             new OA\Response(
                 response: 404,
-                description: "Pet not found"
-            )
-        ],
-        security: [
-            ["petstore_auth" => ["write:pets", "read:pets"]]
+                description: 'Pet not found'
+            ),
         ]
     )]
-    public function deletePet()
+    public function deletePet(): void
     {
     }
 
     #[OA\Post(
-        path: "/pet/{petId}/uploadImage",
-        tags: ["pet"],
-        summary: "uploads an image",
-        operationId: "uploadFile",
-        parameters: [
-            new OA\Parameter(
-                name: "petId",
-                in: "path",
-                description: "ID of pet to update",
-                required: true,
+        path: '/pet/{petId}/uploadImage',
+        operationId: 'uploadFile',
+        summary: 'uploads an image',
+        security: [
+            ['petstore_auth' => ['write:pets', 'read:pets']],
+        ],
+        requestBody: new OA\RequestBody(
+            description: 'Upload images request body',
+            content: new OA\MediaType(
+                mediaType: 'application/octet-stream',
                 schema: new OA\Schema(
-                    type: "integer",
-                    format: "int64",
-                    example: 1
+                    type: 'string',
+                    format: 'binary'
                 )
             )
+        ),
+        tags: ['pet'],
+        parameters: [
+            new OA\Parameter(
+                name: 'petId',
+                description: 'ID of pet to update',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    format: 'int64',
+                    example: 1
+                )
+            ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: "successful operation",
-                content: new OA\JsonContent(ref: "#/components/schemas/ApiResponse")
-            )
-        ],
-        security: [
-            ["petstore_auth" => ["write:pets", "read:pets"]]
-        ],
-        requestBody: new OA\RequestBody(
-            description: "Upload images request body",
-            content: new OA\MediaType(
-                mediaType: "application/octet-stream",
-                schema: new OA\Schema(
-                    type: "string",
-                    format: "binary"
-                )
-            )
-        )
+                description: 'successful operation',
+                content: new OA\JsonContent(ref: '#/components/schemas/ApiResponse')
+            ),
+        ]
     )]
-    public function uploadFile()
+    public function uploadFile(): JsonResponse
     {
+        return response()->json([], 200);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Resources;
 
@@ -10,23 +11,23 @@ use OpenApi\Attributes as OA;
  * Class ApiResponse.
  */
 #[OA\Schema(
-    description: "Api response",
-    title: "Api response"
+    description: 'Api response',
+    title: 'Api response'
 )]
 class ApiResponse extends JsonResource
 {
     public function __construct(
         #[OA\Property(
-            description: "code",
-            title: "code",
-            format: "int32",
-            type: "integer"
+            title: 'code',
+            description: 'code',
+            type: 'integer',
+            format: 'int32'
         )]
         public int $code,
         #[OA\Property(
-            description: "Message",
-            title: "Message",
-            type: "string"
+            title: 'Message',
+            description: 'Message',
+            type: 'string'
         )]
         public string $message,
     ) {
