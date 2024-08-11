@@ -16,10 +16,9 @@ FIXER_DIFF_STATUS := storage/makefile/.fixer-diff.status
 
 STAN_STATUS := .phpstan/resultCache.php
 CS_FIXER_CACHE := .php-cs-fixer.cache
-OAS_ROUTE := routes/oas.php
-ENV_FILE := .env
+OAS_ROUTE := routes/eg_r2.php
 
-ROUTES_SRCS := $(wildcard $(SRCDIR)/Htttp/Controllers/*.php)
+ROUTES_SRCS := $(wildcard $(SRCDIR)/Http/Controllers/*.php)
 MIGRATION_SRCS := $(wildcard database/migrations/*.php)
 OAS_SRCS := $(ROUTES_SRCS) \
   $(wildcard $(SRCDIR)/Http/*/*.php)
@@ -57,7 +56,7 @@ $(FIXER_DIFF_STATUS): $(COMPOSER_CACHE_SRCS) $(COMPOSER_AUTOLOAD_OBJ)
 
 $(OAS_ROUTE): $(ROUTES_SRCS)
 	php -d memory_limit=-1 artisan eg-r2:generate-route
-	$(COMPOSER_DIR)/bin/php-cs-fixer fix routes/oas.php
+	$(COMPOSER_DIR)/bin/php-cs-fixer fix $@
 
 $(REDOC_OBJ): $(OAS_OBJ)
 	npx --yes @stoplight/spectral-cli lint $(OAS_OBJ)
