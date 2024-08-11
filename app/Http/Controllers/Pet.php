@@ -28,7 +28,7 @@ class Pet extends Controller
     )]
     /**
      * Add a new pet to the store.
-     * @param Pet $pet
+     * @param PetRequest $pet
      * @return JsonResponse
      */
     public function addPet(PetRequest $pet): JsonResponse
@@ -108,9 +108,11 @@ class Pet extends Controller
     )]
     /**
      * @param int $id
+     * @return JsonResponse
      */
-    public function getPetById(int $id): void
+    public function getPetById(int $id): JsonResponse
     {
+        return response()->json([], 200);
     }
 
     #[OA\Post(
@@ -249,6 +251,6 @@ class Pet extends Controller
     )]
     public function uploadFile(): JsonResponse
     {
-        return response()->json([], 200);
+        return response()->json();
     }
 }
