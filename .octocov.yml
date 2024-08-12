@@ -1,7 +1,7 @@
 coverage:
   if: true
   paths:
-    - clover.xml
+    - coverage.xml
 codeToTestRatio:
   code:
     - '**/*.php'
