@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       php-version: ${{ steps.php-version.outputs.php-version }}
+      cache-key: ${{ steps.cache-key.outputs.value }}
 
     steps:
       - uses: actions/checkout@v4
@@ -29,17 +30,27 @@ jobs:
       - name: Get Composer Cache Directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
+      - name: Generate vendor cache key
+        id: cache-key
+        run: echo "value=${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
+      - name: Restore Composer Cache
+        uses: actions/cache/restore@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-      - name: Upload Vendor
-        uses: actions/upload-artifact@v3
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Save Composer Cache
+        uses: actions/cache/save@v4
         with:
-          name: vendor
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+      - name: Cache Vendor
+        uses: actions/cache/save@v4
+        with:
           path: vendor
+          key: ${{ steps.cache-key.outputs.value }}
 
   test-coverage:
     needs: setup
@@ -53,11 +64,11 @@ jobs:
           php-version: ${{ needs.setup.outputs.php-version }}
           ini-values: pcov.directory=src
           coverage: 'pcov'
-      - name: Download Vendor
-        uses: actions/download-artifact@v3
+      - name: Restore Vendor
+        uses: actions/cache/restore@v4
         with:
-          name: vendor
           path: vendor
+          key: ${{ needs.setup.outputs.cache-key }}
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Generate OpenAPI Spec
@@ -77,11 +88,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ needs.setup.outputs.php-version }}
-      - name: Download Vendor
-        uses: actions/download-artifact@v3
+      - name: Restore Vendor
+        uses: actions/cache/restore@v4
         with:
-          name: vendor
           path: vendor
+          key: ${{ needs.setup.outputs.cache-key }}
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse
       - name: Run PHP-CS-Fixer
