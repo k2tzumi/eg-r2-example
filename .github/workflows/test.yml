@@ -77,6 +77,10 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover=coverage.xml
       - name: Upload coverage to octocov
         uses: k1LoW/octocov-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          config_path: .octocov.yml
 
   lint:
     needs: setup

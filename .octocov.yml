@@ -19,3 +19,10 @@ report:
   if: is_default_branch
   datastores:
     - artifact://${GITHUB_REPOSITORY}
+  github:
+    comment:
+      enable: true
+  job-summary:
+    enable: true
+store:
+  if: true
