@@ -35,7 +35,7 @@ $(COMPOSER_AUTOLOAD_OBJ): $(GIT_HEAD)
 
 .DEFAULT_GOAL := help
 .PHONY: help \
-   generate-route composer-install migrate redoc \
+   generate-route composer-install migrate redoc test coverage \
    phpstan rector rector-all fixer fixer-all lint lint-all
 
 help:
@@ -83,3 +83,9 @@ migrate: ## Run migrate
 	php -d memory_limit=-1 artisan migrate:status > $(MIGRATION_STATUS)
 
 redoc: $(REDOC_OBJ) ## Generate Redoc
+
+test: $(OAS_OBJ) ## Run test
+	php -d memory_limit=-1 artisan test
+
+coverage: $(OAS_OBJ) ## Run coverage test
+	php -d memory_limit=-1 artisan test --coverage
