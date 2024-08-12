@@ -1,4 +1,4 @@
-name: test
+name: Laravel CI
 on:
   workflow_dispatch:
   pull_request:
@@ -96,7 +96,7 @@ jobs:
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse
       - name: Run PHP-CS-Fixer
-        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --format=checkstyle | cs2pr
       - name: Generate OpenAPI Spec
         run: php -d memory_limit=-1 artisan l5-swagger:generate
       - name: Check OpenAPI Spec
