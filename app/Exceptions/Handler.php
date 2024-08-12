@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -24,12 +25,10 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (ValidationException $e) {
+        $this->reportable(static function (ValidationException $e): void {
             Log::error('Validation failed: ' . $e->getMessage());
-         });
-         
-         $this->renderable(function (ValidationException $e) {
-            return response()->json(['message' => $e->errors()], 422);
-         });
+        });
+
+        $this->renderable(static fn (ValidationException $e) => response()->json(['message' => $e->errors()], 422));
     }
 }

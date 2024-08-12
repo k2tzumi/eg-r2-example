@@ -22,7 +22,7 @@ class PetControllerTest extends TestCase
                 'name' => 'string',
             ],
             'name' => 'string',
-            'photoUrls' => ["images/image-2.png"],
+            'photoUrls' => ['images/image-2.png'],
             'tags' => ['dog'],
         ];
         $response = $this->postJson('/api/pet', $payload);

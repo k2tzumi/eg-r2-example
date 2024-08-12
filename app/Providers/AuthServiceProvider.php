@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -7,25 +8,25 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use OpenApi\Attributes as OA;
 
 #[OA\SecurityScheme(
-    type: "oauth2",
-    name: "petstore_auth",
-    securityScheme: "petstore_auth",
+    type: 'oauth2',
+    name: 'petstore_auth',
+    securityScheme: 'petstore_auth',
     flows: [
         new OA\Flow(
-            flow: "implicit",
-            authorizationUrl: "http://petstore.swagger.io/oauth/dialog",
+            flow: 'implicit',
+            authorizationUrl: 'http://petstore.swagger.io/oauth/dialog',
             scopes: [
-                "write:pets" => "modify pets in your account",
-                "read:pets" => "read your pets"
+                'write:pets' => 'modify pets in your account',
+                'read:pets' => 'read your pets',
             ]
-        )
+        ),
     ]
 )]
 #[OA\SecurityScheme(
-    type: "apiKey",
-    in: "header",
-    name: "api_key",
-    securityScheme: "api_key"
+    type: 'apiKey',
+    in: 'header',
+    name: 'api_key',
+    securityScheme: 'api_key'
 )]
 class AuthServiceProvider extends ServiceProvider
 {
@@ -35,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+
     ];
 
     /**
@@ -43,6 +44,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
     }
 }
