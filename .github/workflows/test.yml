@@ -1,0 +1,92 @@
+name: test
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      php-version: ${{ steps.php-version.outputs.php-version }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get PHP version
+        id: php-version
+        run: |
+          echo "php-version=`jq -r '.config.platform.php' composer.json`" >> $GITHUB_OUTPUT
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.php-version.outputs.php-version }}
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Upload Vendor
+        uses: actions/upload-artifact@v3
+        with:
+          name: vendor
+          path: vendor
+
+  test-coverage:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ needs.setup.outputs.php-version }}
+          ini-values: pcov.directory=src
+          coverage: 'pcov'
+      - name: Download Vendor
+        uses: actions/download-artifact@v3
+        with:
+          name: vendor
+          path: vendor
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Generate OpenAPI Spec
+        run: php -d memory_limit=-1 artisan l5-swagger:generate
+      - name: Execute tests with coverage
+        run: php artisan test --coverage
+      - name: Upload coverage to octocov
+        uses: k1LoW/octocov-action@v0
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ needs.setup.outputs.php-version }}
+      - name: Download Vendor
+        uses: actions/download-artifact@v3
+        with:
+          name: vendor
+          path: vendor
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse
+      - name: Run PHP-CS-Fixer
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+      - name: Generate OpenAPI Spec
+        run: php -d memory_limit=-1 artisan l5-swagger:generate
+      - name: Check OpenAPI Spec
+        run: npx --yes @stoplight/spectral-cli lint storage/api-docs/api-docs.json
