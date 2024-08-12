@@ -1,0 +1,21 @@
+coverage:
+  if: true
+  paths:
+    - coverage/clover.xml
+codeToTestRatio:
+  code:
+    - '**/*.php'
+    - '!**/*Test.php'
+  test:
+    - '**/*Test.php'
+testExecutionTime:
+  if: true
+diff:
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
+comment:
+  if: is_pull_request
+report:
+  if: is_default_branch
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
