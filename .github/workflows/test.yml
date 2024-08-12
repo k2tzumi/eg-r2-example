@@ -74,7 +74,7 @@ jobs:
       - name: Generate OpenAPI Spec
         run: php -d memory_limit=-1 artisan l5-swagger:generate
       - name: Execute tests with coverage
-        run: php artisan test --coverage
+        run: php artisan test --coverage-clover=coverage.xml
       - name: Upload coverage to octocov
         uses: k1LoW/octocov-action@v0
 
