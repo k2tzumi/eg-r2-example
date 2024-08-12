@@ -19,6 +19,9 @@ permissions:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-setup
+      cancel-in-progress: true
     outputs:
       php-version: ${{ steps.php-version.outputs.php-version }}
       cache-key: ${{ steps.cache-key.outputs.value }}
@@ -61,6 +64,9 @@ jobs:
   test-coverage:
     needs: setup
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-test-coverage
+      cancel-in-progress: true
 
     steps:
       - uses: actions/checkout@v4
@@ -91,6 +97,9 @@ jobs:
   lint:
     needs: setup
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-lint
+      cancel-in-progress: true
 
     steps:
       - uses: actions/checkout@v4
