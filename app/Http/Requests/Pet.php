@@ -44,7 +44,6 @@ class Pet extends FormRequest
 
     #[OA\Property(
         property: 'name',
-        title: 'Pet name',
         description: 'Pet name',
         type: 'string',
         format: 'string'
@@ -54,7 +53,6 @@ class Pet extends FormRequest
     /** @var string[] */
     #[OA\Property(
         property: 'photoUrls',
-        title: 'Photo urls',
         description: 'Photo urls',
         type: 'array',
         items: new OA\Items(
@@ -71,7 +69,6 @@ class Pet extends FormRequest
     /** @var string[] */
     #[OA\Property(
         property: 'tags',
-        title: 'Pet tags',
         description: 'Pet tags',
         type: 'array',
         items: new OA\Items(
