@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Pet as PetRequest;
 use App\Http\Resources\ApiResponse;
+use App\Http\Resources\Category;
+use App\Http\Resources\Pet as PetResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class Pet extends Controller
@@ -21,8 +24,17 @@ class Pet extends Controller
         tags: ['pet'],
         responses: [
             new OA\Response(
+                response: 200,
+                description: 'successful operation',
+                content: new OA\JsonContent(ref: '#/components/schemas/ApiResponse')
+            ),
+            new OA\Response(
                 response: 405,
                 description: 'Invalid input'
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Unprocessable Entity'
             ),
         ]
     )]
@@ -75,7 +87,7 @@ class Pet extends Controller
         description: 'Multiple status values can be provided with comma separated string',
         summary: 'Finds Pets by status',
         security: [
-            ['api_key' => []],
+            ['ApiKeyAuth' => []],
         ],
         tags: ['pet'],
         deprecated: true
@@ -98,21 +110,19 @@ class Pet extends Controller
         content:[
             new OA\JsonContent(
                 type: 'array',
-                items:new OA\Items(ref: '#/components/schemas/Pet')
-            ),
-            new OA\XmlContent(
-                type: 'array',
-                items:new OA\Items(ref: '#/components/schemas/Pet')
+                items:new OA\Items(ref: '#/components/schemas/PetResponse')
             ),
         ]
     )]
     /**
-     * @param int $id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function getPetById(int $id): JsonResponse
+    public function findPetsByStatus(Request $request): JsonResponse
     {
-        return response()->json([], 200);
+        $response = [];
+        $response[] = new PetResponse(1, new Category(1, 'category'), 'name', ['photo'], ['tag']);
+        return response()->json($response,200);
     }
 
     #[OA\Post(
