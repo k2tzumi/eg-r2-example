@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use DateTime;
+use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Litalico\EgR2\Http\Requests\FormRequestPropertyHandlerTrait;
 use Litalico\EgR2\Http\Requests\RequestRuleGeneratorTrait;
@@ -25,6 +26,7 @@ class Order extends FormRequest
     #[OA\Property(
         property: 'id',
         description: 'ID',
+        type: 'integer',
         format: 'int64',
         default: 1
     )]
@@ -33,6 +35,7 @@ class Order extends FormRequest
     #[OA\Property(
         property: 'petId',
         description: 'Pet ID',
+        type: 'integer',
         format: 'int64',
         default: 1
     )]
@@ -41,6 +44,7 @@ class Order extends FormRequest
     #[OA\Property(
         property: 'quantity',
         description: 'Quantity',
+        type: 'integer',
         format: 'int32',
         default: 12
     )]
@@ -53,11 +57,12 @@ class Order extends FormRequest
         format: 'datetime',
         default: '2017-02-02 18:31:45'
     )]
-    public DateTime $shipDate;
+    public string $shipDate;
 
     #[OA\Property(
         property: 'status',
         description: 'Order status.',
+        type: 'string',
         default: 'placed',
         enum: ['placed', 'approved', 'delivered']
     )]
@@ -66,8 +71,17 @@ class Order extends FormRequest
     #[OA\Property(
         property: 'complete',
         description: 'Complete status',
+        type: 'boolean',
         format: 'int64',
         default: false
     )]
     public bool $complete;
+
+    /**
+     * @throws Exception
+     */
+    public function getShipDate(): DateTime
+    {
+        return new DateTime($this->shipDate);
+    }
 }

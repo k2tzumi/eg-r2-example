@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Order;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
 class Store extends Controller
@@ -33,6 +36,9 @@ class Store extends Controller
     {
     }
 
+    /**
+     * @throws Exception
+     */
     #[OA\Post(
         path: '/store/order',
         operationId: 'placeOrder',
@@ -54,8 +60,18 @@ class Store extends Controller
             ),
         ]
     )]
-    public function placeOrder(): void
+    public function placeOrder(Order $request): JsonResponse
     {
+        $response = new \App\Http\Resources\Order(
+            $request->id,
+            $request->petId,
+            $request->quantity,
+            $request->getShipDate(),
+            $request->status,
+            $request->complete
+        );
+
+        return response()->json($response, 200);
     }
 
     #[OA\Get(

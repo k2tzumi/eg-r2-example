@@ -73,7 +73,7 @@ class Order extends JsonResource
             'id' => $id,
             'petId' => $petId,
             'quantity' => $quantity,
-            'shipDate' => $shipDate,
+            'shipDate' => $shipDate->format('Y-m-d H:i:s'),
             'status' => $status,
             'complete' => $complete,
         ]);
