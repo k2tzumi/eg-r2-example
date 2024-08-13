@@ -55,7 +55,9 @@ class Order extends FormRequest
         description: 'Shipping date',
         type: 'string',
         format: 'datetime',
-        default: '2017-02-02 18:31:45'
+        default: '2017-02-02 18:31:45',
+        pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$',
+        x: ['date_format' => 'Y-m-d H:i:s']
     )]
     public string $shipDate;
 
