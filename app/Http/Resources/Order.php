@@ -30,21 +30,21 @@ class Order extends JsonResource
             format: 'int64',
             default: 1
         )]
-        public int       $id,
+        public int $id,
         #[OA\Property(
             title: 'Pet ID',
             description: 'Pet ID',
             format: 'int64',
             default: 1
         )]
-        public int       $petId,
+        public int $petId,
         #[OA\Property(
             title: 'Quantity',
             description: 'Quantity',
             format: 'int32',
             default: 12
         )]
-        public int       $quantity,
+        public int $quantity,
         #[OA\Property(
             title: 'Shipping date',
             description: 'Shipping date',
@@ -59,16 +59,15 @@ class Order extends JsonResource
             default: 'placed',
             enum: ['placed', 'approved', 'delivered']
         )]
-        public string    $status,
+        public string $status,
         #[OA\Property(
             title: 'Complete status',
             description: 'Complete status',
             format: 'int64',
             default: false
         )]
-        public bool      $complete
-    )
-    {
+        public bool $complete
+    ) {
         parent::__construct([
             'id' => $id,
             'petId' => $petId,

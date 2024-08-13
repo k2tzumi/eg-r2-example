@@ -13,7 +13,7 @@ class Store extends Controller
         description: 'Returns a map of status codes to quantities',
         summary: 'Returns pet inventories by status',
         security: [
-            ['ApiKeyAuth' => []]
+            ['ApiKeyAuth' => []],
         ],
         tags: ['store'],
         responses: [
@@ -26,10 +26,10 @@ class Store extends Controller
                         format: 'int32'
                     )
                 )
-            )
+            ),
         ]
     )]
-    public function getInventory()
+    public function getInventory(): void
     {
     }
 
@@ -49,12 +49,12 @@ class Store extends Controller
                 description: 'successful operation',
                 content: [
                     new OA\JsonContent(ref: '#/components/schemas/Order'),
-                    new OA\XmlContent(ref: '#/components/schemas/Order')
+                    new OA\XmlContent(ref: '#/components/schemas/Order'),
                 ]
-            )
+            ),
         ]
     )]
-    public function placeOrder()
+    public function placeOrder(): void
     {
     }
 
@@ -75,7 +75,7 @@ class Store extends Controller
                     maximum: 10,
                     minimum: 1
                 )
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -86,7 +86,7 @@ class Store extends Controller
                     new OA\MediaType(
                         mediaType: 'application/xml',
                         schema: new OA\Schema(ref: '#/components/schemas/Order')
-                    )
+                    ),
                 ]
             ),
             new OA\Response(
@@ -96,10 +96,10 @@ class Store extends Controller
             new OA\Response(
                 response: 404,
                 description: 'Order not found'
-            )
+            ),
         ]
     )]
-    public function getOrderById()
+    public function getOrderById(): void
     {
     }
 
@@ -120,7 +120,7 @@ class Store extends Controller
                     format: 'int64',
                     minimum: 1
                 )
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -130,10 +130,10 @@ class Store extends Controller
             new OA\Response(
                 response: 404,
                 description: 'Order not found'
-            )
+            ),
         ]
     )]
-    public function deleteOrder()
+    public function deleteOrder(): void
     {
     }
 }
