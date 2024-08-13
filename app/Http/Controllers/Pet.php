@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FindPetsByStatus;
 use App\Http\Requests\Pet as PetRequest;
 use App\Http\Resources\ApiResponse;
 use App\Http\Resources\Category;
@@ -115,10 +116,10 @@ class Pet extends Controller
         ]
     )]
     /**
-     * @param Request $request
+     * @param FindPetsByStatus $request
      * @return JsonResponse
      */
-    public function findPetsByStatus(Request $request): JsonResponse
+    public function findPetsByStatus(FindPetsByStatus $request): JsonResponse
     {
         $response = [];
         $response[] = new PetResponse(1, new Category(1, 'category'), 'name', ['photo'], ['tag']);

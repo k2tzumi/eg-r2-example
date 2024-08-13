@@ -77,7 +77,7 @@ class PetControllerTest extends TestCase
      * @test
      */
     #[Test]
-    public function findPetsByStatus(): void
+    public function findPetsByStatusSuccess(): void
     {
         $response = $this->getJson('/api/pet/findByStatus?status=available', ['X-API-Key' => 'dummy']);
 
@@ -85,5 +85,18 @@ class PetControllerTest extends TestCase
         $response->assertJson([
             ['id' => 1, 'category' => ['id' => 1, 'name' => 'category'], 'name' => 'name', 'photoUrls' => ['photo'], 'tags' => ['tag']],
         ]);
+    }
+
+    /**
+     * @test
+     */
+    #[Test]
+    public function findPetsByStatusFailure(): void
+    {
+        $this->skipRequestValidation = true;
+        $response = $this->getJson('/api/pet/findByStatus?status=unknown', ['X-API-Key' => 'dummy']);
+
+        $response->assertStatus(422);
+        $response->assertJson(['message' => ['status' => ['The selected status is invalid.']]]);
     }
 }
