@@ -19,32 +19,32 @@ class PetRequestTest extends TestCase
             'id' => [
                 new Integer(),
                 'integer',
-                'min:1'
+                'min:1',
             ],
             'category.id' => [
                 new Integer(),
                 'integer',
-                'min:1'
+                'min:1',
             ],
             'category.Category name' => [
-                'string'
+                'string',
             ],
             'name' => [
                 'required',
-                'string'
+                'string',
             ],
             'photoUrls' => [
                 'present',
-                'array'
+                'array',
             ],
             'photoUrls.*' => [
-                'string'
+                'string',
             ],
             'tags' => [
-                'array'
+                'array',
             ],
             'tags.*' => [
-                'string'
+                'string',
             ],
         ];
 
