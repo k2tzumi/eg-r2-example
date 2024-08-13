@@ -15,4 +15,10 @@ Route::as('api')->group(static function (): void {
         Route::delete('/pet/{petId}', 'deletePet');
         Route::post('/pet/{petId}/uploadImage', 'uploadFile');
     });
+    Route::controller('App\Http\Controllers\Store')->group(static function (): void {
+        Route::get('/store', 'getInventory');
+        Route::post('/store/order', 'placeOrder');
+        Route::get('/store/order/{orderId}', 'getOrderById');
+        Route::delete('/store/order/{orderId}', 'deleteOrder');
+    });
 });
