@@ -64,7 +64,7 @@ class StoreControllerTest extends TestCase
                 'shipDate' => ['The ship date field must match the format Y-m-d H:i:s.'],
                 'status' => ['The selected status is invalid.'],
                 'complete' => ['The complete field must be true or false.'],
-            ]
+            ],
         ];
 
         when:
