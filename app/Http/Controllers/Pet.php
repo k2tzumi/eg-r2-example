@@ -9,7 +9,6 @@ use App\Http\Resources\ApiResponse;
 use App\Http\Resources\Category;
 use App\Http\Resources\Pet as PetResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class Pet extends Controller
