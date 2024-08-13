@@ -48,8 +48,8 @@ class Store extends Controller
                 response: 200,
                 description: 'successful operation',
                 content: [
-                    new OA\JsonContent(ref: '#/components/schemas/Order'),
-                    new OA\XmlContent(ref: '#/components/schemas/Order'),
+                    new OA\JsonContent(ref: '#/components/schemas/OrderResponse'),
+                    new OA\XmlContent(ref: '#/components/schemas/OrderResponse'),
                 ]
             ),
         ]
@@ -82,10 +82,10 @@ class Store extends Controller
                 response: 200,
                 description: 'successful operation',
                 content: [
-                    new OA\JsonContent(ref: '#/components/schemas/Order'),
+                    new OA\JsonContent(ref: '#/components/schemas/OrderResponse'),
                     new OA\MediaType(
                         mediaType: 'application/xml',
-                        schema: new OA\Schema(ref: '#/components/schemas/Order')
+                        schema: new OA\Schema(ref: '#/components/schemas/OrderResponse')
                     ),
                 ]
             ),

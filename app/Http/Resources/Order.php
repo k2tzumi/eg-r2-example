@@ -10,6 +10,7 @@ use OpenApi\Attributes as OA;
  * Class Order.
  */
 #[OA\Schema(
+    schema: 'OrderResponse',
     title: 'Order model',
     description: 'Order model'
 )]
