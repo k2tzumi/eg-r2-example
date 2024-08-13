@@ -74,7 +74,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ needs.setup.outputs.php-version }}
-          ini-values: pcov.directory=src
+          ini-values: pcov.directory=app
           coverage: 'pcov'
       - name: Restore Vendor
         uses: actions/cache/restore@v4
