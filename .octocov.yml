@@ -4,10 +4,9 @@ coverage:
     - coverage.xml
 codeToTestRatio:
   code:
-    - '**/*.php'
-    - '!**/*Test.php'
+    - 'app/**/*.php'
   test:
-    - '**/*Test.php'
+    - 'test/**/*.php'
 testExecutionTime:
   if: true
 diff:
