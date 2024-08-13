@@ -8,13 +8,13 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use OpenApi\Attributes as OA;
 
 #[OA\SecurityScheme(
+    securityScheme: 'petstore_auth',
     type: 'oauth2',
     name: 'petstore_auth',
-    securityScheme: 'petstore_auth',
     flows: [
         new OA\Flow(
-            flow: 'implicit',
             authorizationUrl: 'http://petstore.swagger.io/oauth/dialog',
+            flow: 'implicit',
             scopes: [
                 'write:pets' => 'modify pets in your account',
                 'read:pets' => 'read your pets',
@@ -23,10 +23,10 @@ use OpenApi\Attributes as OA;
     ]
 )]
 #[OA\SecurityScheme(
+    securityScheme: 'ApiKeyAuth',
     type: 'apiKey',
-    in: 'header',
-    name: 'api_key',
-    securityScheme: 'api_key'
+    name: 'X-API-Key',
+    in: 'header'
 )]
 class AuthServiceProvider extends ServiceProvider
 {

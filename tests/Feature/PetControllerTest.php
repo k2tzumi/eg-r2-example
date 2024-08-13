@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Kirschbaum\OpenApiValidator\ValidatesOpenApiSpec;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PetControllerTest extends TestCase
 {
+    use ValidatesOpenApiSpec;
+
     /**
      * @test
      */
@@ -37,7 +40,7 @@ class PetControllerTest extends TestCase
     #[DataProvider('errorCase')]
     public function addPetForValidationError(array $payload, array $expected): void
     {
-        var_export($payload);
+        $this->skipRequestValidation = true;
         $response = $this->postJson('/api/pet', $payload);
 
         $response->assertStatus(422);
@@ -68,5 +71,32 @@ class PetControllerTest extends TestCase
                 ],
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    #[Test]
+    public function findPetsByStatusSuccess(): void
+    {
+        $response = $this->getJson('/api/pet/findByStatus?status=available', ['X-API-Key' => 'dummy']);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            ['id' => 1, 'category' => ['id' => 1, 'name' => 'category'], 'name' => 'name', 'photoUrls' => ['photo'], 'tags' => ['tag']],
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    #[Test]
+    public function findPetsByStatusFailure(): void
+    {
+        $this->skipRequestValidation = true;
+        $response = $this->getJson('/api/pet/findByStatus?status=unknown', ['X-API-Key' => 'dummy']);
+
+        $response->assertStatus(422);
+        $response->assertJson(['message' => ['status' => ['The selected status is invalid.']]]);
     }
 }

@@ -11,8 +11,8 @@ use OpenApi\Attributes as OA;
  * Class ApiResponse.
  */
 #[OA\Schema(
-    description: 'Api response',
-    title: 'Api response'
+    title: 'Api response',
+    description: 'Api response'
 )]
 class ApiResponse extends JsonResource
 {
@@ -31,11 +31,16 @@ class ApiResponse extends JsonResource
         )]
         public string $message,
     ) {
+        parent::__construct([
+            'code' => $code,
+            'message' => $message,
+        ]);
     }
 
     /**
      * Transform the resource into an array.
      *
+     * @param Request $request
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
