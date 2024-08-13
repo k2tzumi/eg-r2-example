@@ -6,7 +6,7 @@ codeToTestRatio:
   code:
     - 'app/**/*.php'
   test:
-    - 'test/**/*.php'
+    - 'tests/**/*.php'
 testExecutionTime:
   if: true
 diff:
