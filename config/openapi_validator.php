@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /*
  * Laravel OpenAPI Validator Config
@@ -13,5 +14,5 @@ return [
     | openapi.json).
     |
     */
-    'spec_path' => env('OPENAPI_PATH', base_path('storage/api-docs/api-docs.json'))
+    'spec_path' => env('OPENAPI_PATH', base_path('storage/api-docs/api-docs.json')),
 ];

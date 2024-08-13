@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\Pet;
 use Kirschbaum\OpenApiValidator\ValidatesOpenApiSpec;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-#[CoversClass(Pet::class)]
 class PetControllerTest extends TestCase
 {
     use ValidatesOpenApiSpec;

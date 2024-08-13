@@ -122,7 +122,8 @@ class Pet extends Controller
     {
         $response = [];
         $response[] = new PetResponse(1, new Category(1, 'category'), 'name', ['photo'], ['tag']);
-        return response()->json($response,200);
+
+        return response()->json($response, 200);
     }
 
     #[OA\Post(

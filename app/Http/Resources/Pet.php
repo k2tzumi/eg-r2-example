@@ -37,7 +37,7 @@ class Pet extends JsonResource
             minimum: 1,
             example: 1
         )]
-        public int      $id,
+        public int $id,
         #[OA\Property(
             property: 'category',
             ref: '#/components/schemas/Category',
@@ -51,7 +51,7 @@ class Pet extends JsonResource
             type: 'string',
             format: 'string'
         )]
-        public string   $name,
+        public string $name,
         #[OA\Property(
             property: 'photoUrls',
             title: 'Photo urls',
@@ -66,7 +66,7 @@ class Pet extends JsonResource
                 wrapped: true
             )
         )]
-        public array    $photoUrls,
+        public array $photoUrls,
         #[OA\Property(
             property: 'tags',
             title: 'Pet tags',
@@ -81,8 +81,8 @@ class Pet extends JsonResource
                 wrapped: true
             )
         )]
-        public array    $tags)
-    {
+        public array $tags
+    ) {
         parent::__construct([
             'id' => $id,
             'category' => $category,
